@@ -31,7 +31,7 @@ app.post('/roll', function (req, res) {
     if (req.body.dies) {
         const dieList = req.body.dies;
         const results = roller(dieList)
-        res.status(200).send(results)
+        res.writeHead(200, {"content-type" : "application/json"}).end(JSON.stringify(results))
     }
     else {
         console.log('Dies key not found')
