@@ -3,10 +3,26 @@ const app = express();
 
 app.use(express.json())
 
+function generateNumber(max) {
+    return Math.floor(Math.random() * max) + 1
+}
+
+function roller(dieList) {
+    for (const die of dieList) {
+        const dieType = die.dieType
+        const rollCount = die.rollCount
+
+        for (let count = 0; count < rollCount; count++) {
+            console.log(generateNumber(dieType))
+        }
+    }
+}
+
 app.post('/roll', function (req, res) {
 
     if (req.body.dies) {
-        console.log('Dies key exists')
+        const dieList = req.body.dies;
+        roller(dieList)
         res.status(200).end()
     }
     else {
