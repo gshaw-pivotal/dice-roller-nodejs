@@ -16,10 +16,14 @@ function roller(dieList) {
 
         const rollResults = [];
         const dieRollStats = {sum: 0, max: 0, min: dieType, mean: 0, rollValueOccurrence: {}}
+
         const rollValueOccurrenceMap = new Map()
+        for (let count = 1; count <= dieType; count++) {
+            rollValueOccurrenceMap.set(count, 0)
+        }
 
         for (let count = 0; count < rollCount; count++) {
-            var roll = generateNumber(dieType)
+            const roll = generateNumber(dieType);
             dieRollStats.sum += roll
             if (roll > dieRollStats.max) { dieRollStats.max = roll }
             if (roll < dieRollStats.min) { dieRollStats.min = roll }
