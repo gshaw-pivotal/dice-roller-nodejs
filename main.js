@@ -8,22 +8,30 @@ function generateNumber(max) {
 }
 
 function roller(dieList) {
+    const rollingResults = []
+
     for (const die of dieList) {
         const dieType = die.dieType
         const rollCount = die.rollCount
 
+        const rollResults = [];
+
         for (let count = 0; count < rollCount; count++) {
-            console.log(generateNumber(dieType))
+            rollResults.push(generateNumber(dieType))
         }
+
+        rollingResults.push({dieType, rollCount, rollResults})
     }
+
+    return rollingResults
 }
 
 app.post('/roll', function (req, res) {
 
     if (req.body.dies) {
         const dieList = req.body.dies;
-        roller(dieList)
-        res.status(200).end()
+        const results = roller(dieList)
+        res.status(200).send(results)
     }
     else {
         console.log('Dies key not found')
