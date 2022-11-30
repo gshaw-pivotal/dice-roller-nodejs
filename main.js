@@ -15,12 +15,26 @@ function roller(dieList) {
         const rollCount = die.rollCount
 
         const rollResults = [];
+        const dieRollStats = {sum: 0, max: 0, min: dieType, mean: 0, rollValueOccurrence: {}}
+        const rollValueOccurrenceMap = new Map()
 
         for (let count = 0; count < rollCount; count++) {
-            rollResults.push(generateNumber(dieType))
+            var roll = generateNumber(dieType)
+            dieRollStats.sum += roll
+            if (roll > dieRollStats.max) { dieRollStats.max = roll }
+            if (roll < dieRollStats.min) { dieRollStats.min = roll }
+            if (rollValueOccurrenceMap.has(roll)) {
+                rollValueOccurrenceMap.set(roll, rollValueOccurrenceMap.get(roll) + 1)
+            } else {
+                rollValueOccurrenceMap.set(roll, 1)
+            }
+            rollResults.push(roll)
         }
 
-        rollingResults.push({dieType, rollCount, rollResults})
+        dieRollStats.mean = dieRollStats.sum / rollCount
+        dieRollStats.rollValueOccurrence = Object.fromEntries(rollValueOccurrenceMap)
+
+        rollingResults.push({dieType, rollCount, rollResults, dieRollStats})
     }
 
     return rollingResults
